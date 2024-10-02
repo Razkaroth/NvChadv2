@@ -5,6 +5,7 @@ require("keymaps.files")
 require("keymaps.copilot")
 require("keymaps.telescope")
 require("keymaps.lsp")
+require("keymaps.minty")
 
 --#endregion
 --#region Keymaps

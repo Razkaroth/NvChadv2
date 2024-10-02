@@ -145,7 +145,7 @@ return {
         end,
       }
       chat.setup(opts)
-      require("CopilotChat.integrations.cmp").setup()
+      -- require("CopilotChat.integrations.cmp").setup()
 
       vim.api.nvim_create_user_command("CopilotChatVisual", function(args)
         chat.ask(args.args, { selection = select.visual })

@@ -1,4 +1,4 @@
--- return {
+return {
 --   "mistweaverco/kulala.nvim",
 --   ft = "http",
 --   keys = {
@@ -9,4 +9,4 @@
 --     { "<leader>Rn", "<cmd>lua require('kulala').jump_next()<cr>", desc = "Jump to next request" },
 --   },
 --   opts = {},
--- }
+}

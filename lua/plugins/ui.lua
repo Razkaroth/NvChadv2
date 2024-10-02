@@ -1,4 +1,7 @@
 return {
+{ "nvchad/volt" , lazy = false },
+{ "nvchad/menu" , lazy = false },
+{ "nvchad/minty", lazy = false },
 {
   "folke/noice.nvim",
   lazy = false,

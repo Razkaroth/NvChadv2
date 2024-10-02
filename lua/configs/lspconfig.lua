@@ -68,7 +68,7 @@ local servers = {
       "svelte",
       "vue",
     },
-    root_dir = require("lspconfig").util.root_pattern("tailwind.config.js", "tailwind.config.ts"),
+    root_dir = require("lspconfig").util.root_pattern("tailwind.config.js", "tailwind.config.ts", "tailwind.config.mjs"),
   },
 
   angularls = {
@@ -149,90 +149,6 @@ local servers = {
   --       },
   --     },
   --   },
-  --   keys = {
-  --     {
-  --       "<leader>cD",
-  --       function()
-  --         local params = vim.lsp.util.make_position_params()
-  --         execute {
-  --           command = "typescript.goToSourceDefinition",
-  --           arguments = { params.textDocument.uri, params.position },
-  --           open = true,
-  --         }
-  --       end,
-  --       desc = "Go to source definition",
-  --     },
-  --     {
-  --       "<leader>cr",
-  --       function()
-  --         execute {
-  --           command = "typescript.findAllFileReferences",
-  --           arguments = { vim.uri_from_bufnr(0) },
-  --           open = true,
-  --         }
-  --       end,
-  --       desc = "Fin all file references",
-  --     },
-  --     {
-  --       "<leader>co",
-  --       function()
-  --         vim.lsp.buf.code_action {
-  --           apply = true,
-  --           context = {
-  --             only = { "source.organizeImports" },
-  --             diagnostics = {},
-  --           },
-  --         }
-  --       end,
-  --       desc = "Organize imports",
-  --     },
-  --     {
-  --       "<leader>ci",
-  --       function()
-  --         vim.lsp.buf.code_action {
-  --           apply = true,
-  --           context = {
-  --             only = { "source.addMissingImports.ts" },
-  --             diagnostics = {},
-  --           },
-  --         }
-  --       end,
-  --       desc = "Add missing imports",
-  --     },
-  --     {
-  --       "<leader>cu",
-  --       function()
-  --         vim.lsp.buf.code_action {
-  --           apply = true,
-  --           context = {
-  --             only = { "source.removeUnused.ts" },
-  --             diagnostics = {},
-  --           },
-  --         }
-  --       end,
-  --       desc = "Remove unused imports",
-  --     },
-  --     {
-  --       "<leader>cf",
-  --       function()
-  --         vim.lsp.buf.code_action {
-  --           apply = true,
-  --           context = {
-  --             only = { "source.fixAll.ts" },
-  --             diagnostics = {},
-  --           },
-  --         }
-  --       end,
-  --       desc = "Fix all",
-  --     },
-  --     {
-  --       "<leader>cV",
-  --       function()
-  --         execute { command = "typescript.selectTypeScriptVersion" }
-  --       end,
-  --       desc = "Select typescript version",
-  --     },
-  --   },
   -- },
 }
 
@@ -244,6 +160,18 @@ for name, opts in pairs(servers) do
 
   require("lspconfig")[name].setup(opts)
 end
+
+vim.lsp.commands["editor.action.showReferences"] = function(command, ctx)
+  local locations = command.arguments[3]
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
+  if locations and #locations > 0 then
+    local items = vim.lsp.util.locations_to_items(locations, client.offset_encoding)
+    vim.fn.setloclist(0, {}, " ", { title = "References", items = items, context = ctx })
+    vim.api.nvim_command "lopen"
+  end
+end
+
+-- require("vtsls").config {}
 
 require("typescript-tools").setup {
   on_attach = on_attach,

@@ -54,6 +54,7 @@ return {
           "svelte",
           "tailwindcss",
           "yamlls",
+          "vtsls"
         },
         automatic_installation = true,
       }
@@ -63,5 +64,21 @@ return {
   },
   {
     "pmizio/typescript-tools.nvim",
+  },
+  -- {
+  --   "yioneko/nvim-vtsls",
+  --   lazy = false,
+  --   ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  -- },
+  {
+    "antosha417/nvim-lsp-file-operations",
+    event = "BufRead",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-tree.lua",
+    },
+    config = function()
+      require("lsp-file-operations").setup()
+    end,
   },
 }
